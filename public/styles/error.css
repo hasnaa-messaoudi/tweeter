@@ -5,12 +5,15 @@
   margin: 20px 0 15px 0;
 }
 
+#alert span{
+  margin-right: auto;
+}
+
 /* The close button */
 .closebtn {
   margin-left: 15px;
   color: red;
   font-weight: bold;
-  float: right;
   font-size: 22px;
   line-height: 20px;
   cursor: pointer;
