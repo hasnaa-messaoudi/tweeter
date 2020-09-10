@@ -5,38 +5,19 @@
  */
 
 $(document).ready(()=>{
-  const data = [
-    {
-      "user": {
-        "name": "Newton",
-        "avatars": "https://i.imgur.com/73hZDYK.png"
-        ,
-        "handle": "@SirIsaac"
-      },
-      "content": {
-        "text": "If I have seen further it is by standing on the shoulders of giants"
-      },
-      "created_at": 1461116232227
-    },
-    {
-      "user": {
-        "name": "Descartes",
-        "avatars": "https://i.imgur.com/nlhLi3I.png",
-        "handle": "@rd" },
-      "content": {
-        "text": "Je pense , donc je suis"
-      },
-      "created_at": 1461113959088
-    }
-  ]
-  
+  // loop on all tweets array to construct several tweets
   const renderTweets = function(tweets) {
-    for (let tweet of tweets){
-      const $tweet1 = createTweetElement(tweet);
-      $('#tweets').append($tweet1); 
+    //sort tweets by created_at
+    let sortedTweets = tweets.sort((a, b) => {return a["created_at"] < b["created_at"] ? 1 : -1 });
+
+    // Loop on sorted tweets by created_at
+    for (let jsonTweet of sortedTweets){
+      const $tweet = createTweetElement(jsonTweet);
+      $('#tweets').append($tweet); 
     }
   }
   
+  //Create one tweet article html
   const createTweetElement = function(tweet) {
     let today = new Date;
     let nDay = Math.round((today.getTime() - tweet.created_at)/(1000 * 3600 * 24));
@@ -46,7 +27,7 @@ $(document).ready(()=>{
                     <span>${tweet.user.name}</span>
                     <a href="#">${tweet.user.handle}</a>
                   </header>
-                  <p>${tweet.content.text}</p>
+                  <p>${escape(tweet.content.text)}</p>
                   <footer>
                     <span>${nDay} day ago</span>
                       <ul>
@@ -59,23 +40,47 @@ $(document).ready(()=>{
                 
     return $tweet;
   }
-  
-  renderTweets(data);
 
+  // Adding a tweet by Submit form using Ajax
   $('#tweetForm').on('submit', (evt) => {
     let data = $('#tweetForm').serialize();
     evt.preventDefault();
     
-    $.ajax({
+    let tweetText = data.split('=')[1].trim();
+    tweetText = tweetText.replace(/%20/g, '');
+    
+    if (tweetText.length > 140) {
+      alert("tweet too long!!");
+    } else if (tweetText === "" || tweetText === null){
+      alert("No tweet to submit!!");
+    } else {
+      $.ajax({
         url: '/tweets/',
         method: 'POST',
         dataType: 'JSON',
         data : data
-    }).then(function(response) {
-        console.log(response);
+      }).then($(loadtweets())).then($("#tweet-text").val(""));
+    }
+  });
+
+  const escape =  function(str) {
+    let div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+  
+  // Fetching tweets with Ajax
+  const loadtweets = function () {
+    $.ajax({
+      url: '/tweets/',
+      method: 'GET',
+      dataType: 'JSON',
+      }).then(function(response) {
         $('#tweets').empty();
         renderTweets(response);
-    })
-  })
+    });
+  }
+
+  $(loadtweets());
 
 }); 
