@@ -41,6 +41,7 @@ $(document).ready(()=>{
     return $tweet;
   }
 
+  
   // Adding a tweet by Submit form using Ajax
   $('#tweetForm').on('submit', (evt) => {
     let data = $('#tweetForm').serialize();
@@ -50,9 +51,9 @@ $(document).ready(()=>{
     tweetText = tweetText.replace(/%20/g, '');
     
     if (tweetText.length > 140) {
-      alert("tweet too long!!");
+      displayError("tweet too long!!");
     } else if (tweetText === "" || tweetText === null){
-      alert("No tweet to submit!!");
+      displayError("No tweet to submit!!");
     } else {
       $.ajax({
         url: '/tweets/',
@@ -82,5 +83,25 @@ $(document).ready(()=>{
   }
 
   $(loadtweets());
+
+  // error Handling
+  // Close error message
+  $(".closebtn").on("click", () => {
+    $(".closebtn").parent().css({
+      'display' : 'none'
+    });
+  });
+
+  const displayError = function(msg) {
+    const htmlError = `
+    <span>&#9888; ${msg} &#9888;</span>`;
+    $('#alert').append(htmlError);
+    $('#alert').css({
+      'border' : 'solid red',
+       'border-width' : '3px'
+    });
+    $('.closebtn').show();
+  };
+
 
 }); 
