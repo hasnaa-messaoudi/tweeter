@@ -1,0 +1,71 @@
+article.tweet {
+  border: solid black;
+  background-color: inherit;
+  border-width: 5px;
+  padding: 15px;
+  margin-top: 30px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  opacity: 50%;
+}
+
+article.tweet:hover {
+  box-shadow: 10px 10px 5px grey;
+  opacity: 100%;
+}
+
+article.tweet header {
+  display: flex;
+  min-height: 120;
+  width: 100%;
+  background-color: #f4f1ec;
+  background-image: none;
+  flex-direction: row;
+  justify-content: left;
+  margin-top: 0;
+}
+
+article.tweet a{
+  margin-left: auto;
+  text-decoration: none;
+  color: black;
+  opacity: 50%;
+}
+
+article.tweet a:hover{
+  opacity: 100%;
+}
+
+article.tweet p {
+  border: solid black;
+  background-color: inherit;
+  border-width: 0 0 5px 0;
+  padding: 15px;
+  margin-block-start: 15px;
+  margin-block-end: 15px;
+}
+
+article.tweet footer {
+  display: flex;
+  font-size: small;
+  font-weight: lighter;
+  padding: 0 15px;
+  flex-direction: row;
+  justify-content: left;
+}
+
+
+/*
+  Icons list in the bottom right (heart, refresh, flag)
+*/
+article.tweet footer ul{
+  display: inline-flex;
+  margin-left: auto;
+  list-style-type: none; 
+  justify-content: right;
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+}
+
+article.tweet footer li{
+  margin: 5px;
+}
