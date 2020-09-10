@@ -33,14 +33,12 @@ $(document).ready(()=>{
   const renderTweets = function(tweets) {
     for (let tweet of tweets){
       const $tweet1 = createTweetElement(tweet);
-      console.log($tweet1);
       $('#tweets').append($tweet1); 
     }
   }
   
   const createTweetElement = function(tweet) {
     let today = new Date;
-    console.log(today.getTime(), tweet.created_at);
     let nDay = Math.round((today.getTime() - tweet.created_at)/(1000 * 3600 * 24));
     let $tweet = `<article class="tweet">
                   <header>
@@ -65,12 +63,14 @@ $(document).ready(()=>{
   renderTweets(data);
 
   $('#tweetForm').on('submit', (evt) => {
+    let data = $('#tweetForm').serialize();
     evt.preventDefault();
+    
     $.ajax({
         url: '/tweets/',
         method: 'POST',
         dataType: 'JSON',
-        data : $(this).serialize()
+        data : data
     }).then(function(response) {
         console.log(response);
         $('#tweets').empty();
