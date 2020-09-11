@@ -43,28 +43,6 @@ $(document).ready(()=>{
     return $tweet;
   };
 
-  // Adding a tweet by Submit form using Ajax
-  $('#tweetForm').on('submit', (evt) => {
-    let data = $('#tweetForm').serialize();
-    evt.preventDefault();
-    
-    let tweetText = data.split('=')[1].trim();
-    tweetText = tweetText.replace(/%20/g, '');
-    
-    if (tweetText.length > 140) {
-      displayError("tweet too long!!");
-    } else if (tweetText === "" || tweetText === null) {
-      displayError("No tweet to submit!!");
-    } else {
-      $.ajax({
-        url: '/tweets/',
-        method: 'POST',
-        dataType: 'JSON',
-        data : data
-      }).then($(loadtweets())).then($("#tweet-text").val(""));
-    }
-  });
-
   const escape =  function(str) {
     let div = document.createElement('div');
     div.appendChild(document.createTextNode(str));
@@ -74,37 +52,64 @@ $(document).ready(()=>{
   // Fetching tweets with Ajax
   const loadtweets = function() {
     $.ajax({
-      url: '/tweets/',
+      url: '/tweets',
       method: 'GET',
-      dataType: 'JSON',
-    }).then(function(response) {
+    }).done(function(response) {
+      //console.log("Inside LoadTweets!!",);
       $('#tweets').empty();
+      $("#tweet-text").val("");
       renderTweets(response);
     });
   };
 
-  $(loadtweets());
-
-  // error Handling
-  // Close error message
-  $(".closebtn").on("click", () => {
-    $("#error").remove();
-    $('#alert').css({
-      'border' : 'none',
-      'border-width' : '0'
+  $(() => {  
+    loadtweets();
+    // Adding a tweet by Submit form using Ajax
+    //$('#tweetForm').on('submit', (evt) => {
+    $('#tweetForm').submit(function (evt) {
+      let data = $('#tweetForm').serialize();
+      evt.preventDefault();
+      
+      let tweetText = data.split('=')[1].trim();
+      tweetText = tweetText.replace(/%20/g, '');
+      
+      if (tweetText.length > 140) {
+        displayError("tweet too long!!");
+      } else if (tweetText === "" || tweetText === null) {
+        displayError("No tweet to submit!!");
+      } else {
+        $.ajax({
+          url: '/tweets',
+          method: 'POST',
+          //dataType: 'JSON',
+          data : data
+        }).done(loadtweets);
+      }
     });
-    $('.closebtn').hide();
+
+    // error Handling
+    // Close error message
+    $(".closebtn").on("click", () => {
+      $("#error").remove();
+      $('#alert').css({
+        'border' : 'none',
+        'border-width' : '0'
+      });
+      $('.closebtn').hide();
+    });
+
+    const displayError = function(msg) {
+      $("#error").remove();
+      const htmlError = `
+      <span id="error">&#9888; ${msg} &#9888;</span>`;
+      $('#alert').append(htmlError);
+      $('#alert').css({
+        'border' : 'solid red',
+        'border-width' : '3px'
+      });
+      $('.closebtn').show();
+    };
   });
 
-  const displayError = function(msg) {
-    $("#error").remove();
-    const htmlError = `
-    <span id="error">&#9888; ${msg} &#9888;</span>`;
-    $('#alert').append(htmlError);
-    $('#alert').css({
-      'border' : 'solid red',
-      'border-width' : '3px'
-    });
-    $('.closebtn').show();
-  };
+  
 });
