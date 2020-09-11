@@ -4,8 +4,8 @@ Tweeter is a simple, responsive single-page Twitter clone.
 
 ## Final Product
 
-!["Register page"](https://raw.githubusercontent.com/hasnaa-messaoudi/tweeter/docs/register-page.png)
-!["Create new Tiny URL"](https://raw.githubusercontent.com/hasnaa-messaoudi/tweeter/docs/create-new-url-page.png)
+!["Full screen view"](https://raw.githubusercontent.com/hasnaa-messaoudi/tweeter/docs/screen.png)
+!["Mobile view"](https://raw.githubusercontent.com/hasnaa-messaoudi/tweeter/docs/responsive.png)
 
 
 
