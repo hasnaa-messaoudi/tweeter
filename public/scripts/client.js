@@ -62,11 +62,11 @@ $(document).ready(()=>{
     });
   };
 
-  $(() => {  
+  $(() => {
     loadtweets();
     // Adding a tweet by Submit form using Ajax
     //$('#tweetForm').on('submit', (evt) => {
-    $('#tweetForm').submit(function (evt) {
+    $('#tweetForm').submit(function(evt) {
       let data = $('#tweetForm').serialize();
       evt.preventDefault();
       
