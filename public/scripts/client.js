@@ -8,19 +8,21 @@ $(document).ready(()=>{
   // loop on all tweets array to construct several tweets
   const renderTweets = function(tweets) {
     //sort tweets by created_at
-    let sortedTweets = tweets.sort((a, b) => {return a["created_at"] < b["created_at"] ? 1 : -1 });
+    let sortedTweets = tweets.sort((a, b) => {
+      return a["created_at"] < b["created_at"] ? 1 : -1;
+    });
 
     // Loop on sorted tweets by created_at
-    for (let jsonTweet of sortedTweets){
+    for (let jsonTweet of sortedTweets) {
       const $tweet = createTweetElement(jsonTweet);
-      $('#tweets').append($tweet); 
+      $('#tweets').append($tweet);
     }
-  }
+  };
   
   //Create one tweet article html
   const createTweetElement = function(tweet) {
     let today = new Date;
-    let nDay = Math.round((today.getTime() - tweet.created_at)/(1000 * 3600 * 24));
+    let nDay = Math.round((today.getTime() - tweet.created_at) / (1000 * 3600 * 24));
     let $tweet = `<article class="tweet">
                   <header>
                     <img src="${tweet.user.avatars}" />
@@ -39,9 +41,8 @@ $(document).ready(()=>{
                 </article>`;
                 
     return $tweet;
-  }
+  };
 
-  
   // Adding a tweet by Submit form using Ajax
   $('#tweetForm').on('submit', (evt) => {
     let data = $('#tweetForm').serialize();
@@ -52,7 +53,7 @@ $(document).ready(()=>{
     
     if (tweetText.length > 140) {
       displayError("tweet too long!!");
-    } else if (tweetText === "" || tweetText === null){
+    } else if (tweetText === "" || tweetText === null) {
       displayError("No tweet to submit!!");
     } else {
       $.ajax({
@@ -68,40 +69,42 @@ $(document).ready(()=>{
     let div = document.createElement('div');
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
-  }
+  };
   
   // Fetching tweets with Ajax
-  const loadtweets = function () {
+  const loadtweets = function() {
     $.ajax({
       url: '/tweets/',
       method: 'GET',
       dataType: 'JSON',
-      }).then(function(response) {
-        $('#tweets').empty();
-        renderTweets(response);
+    }).then(function(response) {
+      $('#tweets').empty();
+      renderTweets(response);
     });
-  }
+  };
 
   $(loadtweets());
 
   // error Handling
   // Close error message
   $(".closebtn").on("click", () => {
-    $(".closebtn").parent().css({
-      'display' : 'none'
+    $("#error").remove();
+    $('#alert').css({
+      'border' : 'none',
+      'border-width' : '0'
     });
+    $('.closebtn').hide();
   });
 
   const displayError = function(msg) {
+    $("#error").remove();
     const htmlError = `
-    <span>&#9888; ${msg} &#9888;</span>`;
+    <span id="error">&#9888; ${msg} &#9888;</span>`;
     $('#alert').append(htmlError);
     $('#alert').css({
       'border' : 'solid red',
-       'border-width' : '3px'
+      'border-width' : '3px'
     });
     $('.closebtn').show();
   };
-
-
-}); 
+});

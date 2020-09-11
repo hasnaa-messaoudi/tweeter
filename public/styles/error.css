@@ -1,12 +1,11 @@
 /* The alert message box */
 #alert {
-  padding: 20px;
   color: red;
-  margin: 20px 0 15px 0;
 }
 
 #alert span{
   margin-right: auto;
+  padding: 20px;
 }
 
 /* The close button */

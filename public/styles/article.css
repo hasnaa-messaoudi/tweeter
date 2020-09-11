@@ -69,3 +69,16 @@ article.tweet footer ul{
 article.tweet footer li{
   margin: 5px;
 }
+
+
+@media only screen and (min-width: 1024px) {
+  article.tweet {
+    margin: 20px;
+  }
+  article.tweet header { 
+    width: auto;
+    height: auto;
+    margin: 0;
+    justify-content: space-between;
+  }  
+}

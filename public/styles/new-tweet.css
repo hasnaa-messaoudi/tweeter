@@ -35,3 +35,14 @@
   font-weight: 400;
 }
 
+@media only screen and (min-width: 1024px) {
+
+  .new-tweet{
+    padding: 0 20px;
+  }
+
+  .new-tweet h2 {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+  }
+}

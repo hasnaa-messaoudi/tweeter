@@ -1,9 +1,9 @@
 $(document).ready(function() {
   let textAreaValue = $("#tweet-text").val();
   $("#tweet-text").on("change keyup paste", function() {
-    var currentVal = $(this).val();
-    if(currentVal == textAreaValue) {
-        return; //check to prevent multiple simultaneous triggers
+    let currentVal = $(this).val();
+    if (currentVal === textAreaValue) {
+      return; //check to prevent multiple simultaneous triggers
     }
 
     let newCount = 140 - currentVal.length;
